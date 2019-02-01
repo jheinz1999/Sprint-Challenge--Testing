@@ -12,4 +12,21 @@ server.get('/games', (req, res) => {
 
 });
 
+server.post('/games', (req, res) => {
+
+  const { title, genre, releaseYear } = req.body;
+
+  if (!title || !genre) {
+
+    res.status(422).json({message: 'invalid req body'});
+    return;
+
+  }
+
+  games.push({ title, genre, releaseYear });
+
+  res.status(201).json({message: 'success'});
+
+});
+
 module.exports = server;
