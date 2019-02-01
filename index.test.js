@@ -25,7 +25,35 @@ describe('index.js', () => {
 
       const response = await request(server).get('/games');
 
-      expect(response.type).toEqual('application/json');
+      expect(response.type).toBe('application/json');
+
+    });
+
+  });
+
+  describe('POST routes', () => {
+
+    it('should return 201 status code if body is valid', async () => {
+
+      const response = await request(server).post('/games').send({ title: 'Pacman', genre: 'Arcade' });
+
+      expect(response.status).toBe(201);
+
+    });
+
+    it('should return 422 status code if body is invalid', async () => {
+
+      const response = await request(server).post('/games').send({title: 'Pokemon', releaseYear: 1999});
+
+      expect(response.status).toBe(422);
+
+    });
+
+    it('should return a message in body', async () => {
+
+      const response = await request(server).post('/games').send({ title: 'Pacman', genre: 'Arcade' });
+
+      expect(response.body.message).not.toBe(null);
 
     });
 
